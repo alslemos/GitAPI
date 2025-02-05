@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+struct GitHubUser: Codable {
+    let login: String
+    let avatarLink: String?
+}
+
+struct Repository: Codable, Identifiable {
+    let id: Int
+    let name: String
+    let language: String?
+}
