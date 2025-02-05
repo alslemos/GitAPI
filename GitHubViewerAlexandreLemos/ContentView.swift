@@ -62,7 +62,8 @@ struct ContentView: View {
             
             // main navigation
             NavigationLink(
-                //TODO: destination: DetailedInfo(viewModel: viewModel),
+                //TODO: change destination
+                destination: EmptyView().background(Color.red),
                 isActive: $isNavigatingToDetailedInfo
             ) {
                 EmptyView() // Invisible view
