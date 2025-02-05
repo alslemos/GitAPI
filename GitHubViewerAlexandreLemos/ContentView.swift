@@ -24,6 +24,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             
+            // main component as requested
             TextField(
                 "Username",
                 text: $gitUserToSearch, prompt: Text("Username")
@@ -34,7 +35,26 @@ struct ContentView: View {
             
             Button("Search") {
                 
-                // Must trigger and validate gitUserToSearch
+                // Reset error message and start loading
+                isLoading = true
+                
+                // Trigger the API call
+                Task {
+                    
+                    // main call
+                    // TODO: create func
+                    // something like fetchUserAndRepos(username: gitUserToSearch)
+                    
+                    // stop loading
+                    isLoading = false
+                    
+                    // must navigate if everything was okk
+                    // TODO: create if
+                    // something lke
+                    // if viewModel.errorMessage == nil {
+                    // isNavigatingToDetailedInfo = true
+                    // }
+                }
                 
             }
             .buttonStyle(.borderless)
