@@ -22,56 +22,72 @@ struct ContentView: View {
     @StateObject private var viewModel = GitHubViewModel()
     
     var body: some View {
-        VStack {
+        
+        NavigationView {
             
-            // main component as requested
-            TextField(
-                "Username",
-                text: $gitUserToSearch, prompt: Text("Username")
-            )
-            .disableAutocorrection(true)
-            .textFieldStyle(.roundedBorder)
-            .padding()
             
-            Button("Search") {
+            
+            VStack {
                 
-                // Reset error message and start loading
-                isLoading = true
+                // main component as requested
+                TextField(
+                    "Username",
+                    text: $gitUserToSearch, prompt: Text("Username")
+                )
+                .disableAutocorrection(true)
+                .textFieldStyle(.roundedBorder)
+                .padding()
                 
-                // Trigger the API call
-                Task {
+                Button("Search") {
                     
-                    // main call
-                    // TODO: create func
-                    // something like fetchUserAndRepos(username: gitUserToSearch)
+                    // Reset error message and start loading
+                    isLoading = true
                     
-                    // stop loading
-                    isLoading = false
+                    // Trigger the API call
+                    Task {
+                        
+                        // main call
+                        await viewModel.fetchUserAndRepos(username: gitUserToSearch)
+                        
+                        // stop loading
+                        isLoading = false
+                        
+                        // must navigate if everything was okk
+                        // Navigate only if there's no error
+                        if viewModel.errorMessage == nil {
+                            isNavigatingToDetailedInfo = true
+                        }
+                    }
                     
-                    // must navigate if everything was okk
-                    // TODO: create if
-                    // something lke
-                    // if viewModel.errorMessage == nil {
-                    // isNavigatingToDetailedInfo = true
-                    // }
+                }
+                .buttonStyle(.borderless)
+                .controlSize(.large)
+                
+                // Loading indicator
+                if isLoading {
+                    ProgressView()
+                        .padding()
                 }
                 
+                // Error message
+                if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding()
+                }
+                
+                // main navigation
+                NavigationLink(
+                    destination: DetailedView(viewModel: viewModel),
+                    isActive: $isNavigatingToDetailedInfo
+                ) {
+                    EmptyView() // Invisible view
+                }
             }
-            .buttonStyle(.borderless)
-            .controlSize(.large)
-            
-            // main navigation
-            NavigationLink(
-                //TODO: change destination
-                destination: DetailedView(viewModel: viewModel),
-                isActive: $isNavigatingToDetailedInfo
-            ) {
-                EmptyView() // Invisible view
-            }
+            .padding()
+            .navigationTitle("GitHub Viewer")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .padding()
-        .navigationTitle("GitHub Viewer")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
