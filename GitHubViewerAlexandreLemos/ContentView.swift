@@ -12,6 +12,15 @@ struct ContentView: View {
     // main variable to call API
     @State private var gitUserToSearch: String = ""
     
+    // a varable control navigation, started as false
+    @State private var isNavigatingToDetailedInfo = false
+    
+    // creating a loading info
+    @State private var isLoading = false
+    
+    // must create a new instance of the api caller
+    // TODO: over here
+    
     var body: some View {
         VStack {
             
