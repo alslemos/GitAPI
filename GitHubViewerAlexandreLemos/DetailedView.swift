@@ -14,20 +14,27 @@ struct DetailedInfo: View {
     var body: some View {
         VStack {
             if let user = viewModel.user {
-                VStack {
-                    if let avatarUrl = user.avatar_url, let url = URL(string: avatarUrl) {
-                        AsyncImage(url: url) { image in
-                            image.resizable()
-                        } placeholder: {
-                            ProgressView()
+                
+                ZStack {
+                    
+                    Color.blue
+                
+                    VStack {
+                        if let avatarUrl = user.avatar_url, let url = URL(string: avatarUrl) {
+                            AsyncImage(url: url) { image in
+                                image.resizable()
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
                         }
-                        .frame(width: 100, height: 100)
-                        .clipShape(Circle())
+                        Text(user.login)
+                            .font(.title)
                     }
-                    Text(user.login)
-                        .font(.title)
-                }
-                .padding()
+                    .padding()
+                }.ignoresSafeArea()
+               
             }
             
             List(viewModel.repositories) { repo in
@@ -39,6 +46,9 @@ struct DetailedInfo: View {
                         .foregroundColor(.gray)
                 }
             }
+            .listStyle(PlainListStyle())
+            .listSectionSeparator(.hidden)
+            .scrollContentBackground(.hidden)
         }
         .padding()
     }
