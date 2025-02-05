@@ -12,14 +12,14 @@ struct ContentView: View {
     // main variable to call API
     @State private var gitUserToSearch: String = ""
     
-    // a varable control navigation, started as false
+    // a variable control navigation, started as false
     @State private var isNavigatingToDetailedInfo = false
     
     // creating a loading info
     @State private var isLoading = false
     
-    // must create a new instance of the api caller
-    // TODO: over here
+    // a new instance of the api caller
+    @StateObject private var viewModel = GitHubViewModel()
     
     var body: some View {
         VStack {
@@ -63,7 +63,7 @@ struct ContentView: View {
             // main navigation
             NavigationLink(
                 //TODO: change destination
-                destination: EmptyView().background(Color.red),
+                destination: DetailedView(viewModel: viewModel),
                 isActive: $isNavigatingToDetailedInfo
             ) {
                 EmptyView() // Invisible view
