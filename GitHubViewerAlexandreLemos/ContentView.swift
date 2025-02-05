@@ -20,8 +20,16 @@ struct ContentView: View {
                 text: $gitUserToSearch, prompt: Text("Username")
             )
             .disableAutocorrection(true)
+            .textFieldStyle(.roundedBorder)
+            .padding()
             
-            Text("Hello, world!")
+            Button("Search") {
+                
+                // Must trigger and validate gitUserToSearch
+                
+            }
+            .buttonStyle(.borderless)
+            .controlSize(.large)
         }
         .padding()
     }
