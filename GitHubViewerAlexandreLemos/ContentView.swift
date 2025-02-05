@@ -59,8 +59,18 @@ struct ContentView: View {
             }
             .buttonStyle(.borderless)
             .controlSize(.large)
+            
+            // main navigation
+            NavigationLink(
+                //TODO: destination: DetailedInfo(viewModel: viewModel),
+                isActive: $isNavigatingToDetailedInfo
+            ) {
+                EmptyView() // Invisible view
+            }
         }
         .padding()
+        .navigationTitle("GitHub Viewer")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
