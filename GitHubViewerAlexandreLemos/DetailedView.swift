@@ -5,20 +5,17 @@
 //  Created by Alexandre Lemos da Silva on 05/02/25.
 //
 
-import Foundation
 import SwiftUI
+import Foundation
 
-struct DetailedView: View {
+struct DetailedInfo: View {
     @ObservedObject var viewModel: GitHubViewModel
     
     var body: some View {
         VStack {
             if let user = viewModel.user {
                 VStack {
-                    
-                    if let avatarUrl = user.avatarLink, let url = URL(string: avatarUrl) {
-                        
-                        // async image
+                    if let avatarUrl = user.avatar_url, let url = URL(string: avatarUrl) {
                         AsyncImage(url: url) { image in
                             image.resizable()
                         } placeholder: {
@@ -45,5 +42,4 @@ struct DetailedView: View {
         }
         .padding()
     }
-    
 }

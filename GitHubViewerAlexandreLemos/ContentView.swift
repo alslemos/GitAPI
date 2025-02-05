@@ -24,11 +24,9 @@ struct ContentView: View {
     var body: some View {
         
         NavigationView {
-            
-            
-            
+    
             VStack {
-                
+            
                 // main component as requested
                 TextField(
                     "Username",
@@ -63,13 +61,13 @@ struct ContentView: View {
                 .buttonStyle(.borderless)
                 .controlSize(.large)
                 
-                // Loading indicator
+                // loading indicator
                 if isLoading {
                     ProgressView()
                         .padding()
                 }
                 
-                // Error message
+                // error message
                 if let errorMessage = viewModel.errorMessage {
                     Text(errorMessage)
                         .foregroundColor(.red)
@@ -78,7 +76,7 @@ struct ContentView: View {
                 
                 // main navigation
                 NavigationLink(
-                    destination: DetailedView(viewModel: viewModel),
+                    destination: DetailedInfo(viewModel: viewModel),
                     isActive: $isNavigatingToDetailedInfo
                 ) {
                     EmptyView() // Invisible view
