@@ -21,12 +21,15 @@ struct ContentView: View {
     // a new instance of the api caller
     @StateObject private var viewModel = GitHubViewModel()
     
+    // controll alarm
+    @State private var showingAlert = false
+    
     var body: some View {
         
         NavigationView {
-    
-            VStack {
             
+            VStack {
+                
                 // main component as requested
                 TextField(
                     "Username",
@@ -39,11 +42,11 @@ struct ContentView: View {
                 Button("Search") {
                     
                     // Reset error message and start loading
+                    viewModel.resetState()
                     isLoading = true
                     
                     // Trigger the API call
                     Task {
-                        
                         // main call
                         await viewModel.fetchUserAndRepos(username: gitUserToSearch)
                         
@@ -54,12 +57,19 @@ struct ContentView: View {
                         // Navigate only if there's no error
                         if viewModel.errorMessage == nil {
                             isNavigatingToDetailedInfo = true
+                        } else {
+                            showingAlert = true
                         }
                     }
                     
                 }
                 .buttonStyle(.borderless)
                 .controlSize(.large)
+                .alert("Attention", isPresented: $showingAlert) {
+                    Button("Ok", role: .cancel) {}
+                } message: {
+                    Text("User not found. Please enter another name")
+                }
                 
                 // loading indicator
                 if isLoading {
@@ -69,10 +79,12 @@ struct ContentView: View {
                 
                 // error message
                 if let errorMessage = viewModel.errorMessage {
+                    
                     Text(errorMessage)
                         .foregroundColor(.red)
                         .padding()
                 }
+                
                 
                 // main navigation
                 NavigationLink(

@@ -12,6 +12,12 @@ class GitHubViewModel: ObservableObject, Sendable {
     @Published var repositories: [Repository] = []
     @Published var errorMessage: String?
     
+    func resetState() {
+            user = nil
+            repositories = []
+            errorMessage = nil
+    }
+    
     func fetchUserAndRepos(username: String) async {
         guard let userUrl = URL(string: "https://api.github.com/users/\(username)"),
               let reposUrl = URL(string: "https://api.github.com/users/\(username)/repos") else {
@@ -33,7 +39,7 @@ class GitHubViewModel: ObservableObject, Sendable {
             }
         } catch {
             DispatchQueue.main.async {
-                self.errorMessage = "Failed to load data or missing profile"
+                self.errorMessage = "Failed to load data"
             }
         }
     }
